@@ -10,28 +10,21 @@ struct node {
 	struct node* right;
 };
 
-struct node* SearchBST(int data, struct node* root){
-	struct node* current = root;
-	printf("Visiting elements: ");
-	while(current->data != data){
-		if(current != NULL){
-			printf("%d", current->data);
-			
-			//go to left tree 
-			if(current->data > data){
-				current = current->left;
-			}//else go to right tree
-		else{
-			current = current->right;
-			}
-			//not found
-			if(current == NULL){
-				return NULL;
-			}
-		}
-	}
-	return NULL;
-}
+// void printTree(struct node* root, int level) {
+//     if (root == NULL)
+//         return;
+
+//     printTree(root->right, level + 1);
+
+//     for (int i = 0; i < level; i++)
+//         printf("     ");
+
+//     printf("%d\n", root->data);
+
+//     printTree(root->left, level + 1);
+// }
+
+
 
 
 struct node* newNode(int data)
@@ -108,6 +101,19 @@ int CheckBST(struct node* node) {
         return 1;
 }
 
+void printTree(struct node* root, int level) {
+    if (root == NULL)
+        return;
+
+    printTree(root->right, level + 1);
+
+    for (int i = 0; i < level; i++)
+        printf("     ");
+
+    printf("%d\n", root->data);
+
+    printTree(root->left, level + 1);
+}
 
 int main()
 {
@@ -120,6 +126,9 @@ int main()
     root->left->right = newNode(3);
     root->right->right = newNode(7);
     root->right->right->left = newNode(6);
+
+     printf("Binary Tree:\n");
+    printTree(root, 0);
 
  	printf("The number of leaf nodes is %d\n", Leafes_Counter(root));
 	printf("The height of the tree is %d\n",Tree_Height(root));
