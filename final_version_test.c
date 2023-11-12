@@ -10,33 +10,14 @@ struct node {
 	struct node* right;
 };
 
-// void printTree(struct node* root, int level) {
-//     if (root == NULL)
-//         return;
-
-//     printTree(root->right, level + 1);
-
-//     for (int i = 0; i < level; i++)
-//         printf("     ");
-
-//     printf("%d\n", root->data);
-
-//     printTree(root->left, level + 1);
-// }
-
-
-
-
 struct node* newNode(int data)
 {
 	struct node* node = (struct node*)malloc(sizeof(struct node));
-	// Assign data to this node
 	node->data = data;
 	node->left = NULL;
 	node->right = NULL;
 	return (node);
 }
-
 int Leafes_Counter(struct node* node){
     if (node == NULL)
         return 0;
@@ -52,7 +33,7 @@ int Tree_Height(struct node* root){
     	return 0;
 	else{
 		left_height = Tree_Height(root->left);
-    	right_height =Tree_Height(root->right);
+    		right_height =Tree_Height(root->right);
 		if (left_height >= right_height)
             return left_height + 1;
         else
