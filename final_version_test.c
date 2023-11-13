@@ -10,14 +10,33 @@ struct node {
 	struct node* right;
 };
 
+// void printTree(struct node* root, int level) {
+//     if (root == NULL)
+//         return;
+
+//     printTree(root->right, level + 1);
+
+//     for (int i = 0; i < level; i++)
+//         printf("     ");
+
+//     printf("%d\n", root->data);
+
+//     printTree(root->left, level + 1);
+// }
+
+
+
+
 struct node* newNode(int data)
 {
 	struct node* node = (struct node*)malloc(sizeof(struct node));
+	// Assign data to this node
 	node->data = data;
 	node->left = NULL;
 	node->right = NULL;
 	return (node);
 }
+
 int Leafes_Counter(struct node* node){
     if (node == NULL)
         return 0;
@@ -33,7 +52,7 @@ int Tree_Height(struct node* root){
     	return 0;
 	else{
 		left_height = Tree_Height(root->left);
-    		right_height =Tree_Height(root->right);
+    	right_height =Tree_Height(root->right);
 		if (left_height >= right_height)
             return left_height + 1;
         else
@@ -96,13 +115,55 @@ void printTree(struct node* root, int level) {
     printTree(root->left, level + 1);
 }
 
+struct node* LCA(struct node* root, int n1, int n2) {
+    if (root == NULL)
+        return NULL;
+
+    if (root->data == n1 || root->data == n2)
+        return root;
+
+
+    struct node* left_lca = LCA(root->left, n1, n2);
+    struct node* right_lca = LCA(root->right, n1, n2);
+
+    if (left_lca != NULL && right_lca != NULL)
+        return root;
+
+    return (left_lca != NULL) ? left_lca : right_lca;
+}
+
+void inOrderTraversal(struct node* root) {
+    if (root != NULL) {
+        inOrderTraversal(root->left);
+        printf("%d ", root->data);
+        inOrderTraversal(root->right);
+    }
+}
+
+int balanceHeight(struct node* currentNode) {
+    if (currentNode == NULL) {
+        return 0;
+    }
+
+    int leftSubtreeHeight = balanceHeight(currentNode->left);
+    if (leftSubtreeHeight == -1) return -1;
+
+    int rightSubtreeHeight = balanceHeight(currentNode->right);
+    if (rightSubtreeHeight == -1) return -1;
+
+    if (abs(leftSubtreeHeight - rightSubtreeHeight) > 1) {
+        return -1;
+    }
+
+}
+
 int main()
 {
 
 
 	struct node* root = newNode(3);
-    root->left = newNode(2);
-    root->right = newNode(4);
+    root->left = newNode(3);
+    root->right = newNode(1);
     root->left->left = newNode(1);
     root->left->right = newNode(3);
     root->right->right = newNode(7);
@@ -120,5 +181,24 @@ int main()
     } else {
         printf("The tree is NOT a BST\n");
     }
+
+     int isBalanced = balanceHeight(root);
+    if (isBalanced != -1) {
+        printf("The tree is balanced.\n");
+    } else {
+        printf("The tree is not balanced.\n");
+    }
+
+    struct node* result = LCA(root, 1, 3);
+
+    if (result != NULL) {
+        printf("Lowest Common Ancestor of nodes 8 and 10 is %d\n", result->data);
+    } else {
+        printf("Nodes not found in the tree.\n");
+    }
+
+    printf("In-order traversal of the tree: ");
+    inOrderTraversal(root);
+
 	return 0;
 }
