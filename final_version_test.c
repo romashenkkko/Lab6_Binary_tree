@@ -10,22 +10,6 @@ struct node {
 	struct node* right;
 };
 
-// void printTree(struct node* root, int level) {
-//     if (root == NULL)
-//         return;
-
-//     printTree(root->right, level + 1);
-
-//     for (int i = 0; i < level; i++)
-//         printf("     ");
-
-//     printf("%d\n", root->data);
-
-//     printTree(root->left, level + 1);
-// }
-
-
-
 
 struct node* newNode(int data)
 {
